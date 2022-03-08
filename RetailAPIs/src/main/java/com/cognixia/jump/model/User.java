@@ -17,7 +17,7 @@ import javax.validation.constraints.Size;
 public class User {
 
 	public static enum Roles {
-		USER, ADMIN
+		ROLE_USER, ROLE_ADMIN
 	}
 	
 	@Id
@@ -30,16 +30,18 @@ public class User {
 	@Column (nullable = false)
 	private String last_name;
 	
+	@Column(nullable = false, unique = true)
 	private String username;
 	
 	@Size(min=6)
 	private String password;
 	
-	@Size(min=9)
-	private char phone_number;
-	
 	@Enumerated(EnumType.STRING)
+	@Column(nullable = false)
 	private Roles role;
+	
+	@Column(nullable = false)
+	private boolean enabled;
 	
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	private List<Order> orders;
@@ -48,7 +50,7 @@ public class User {
 		
 	}
 
-	public User(Integer id, String first_name, String last_name, String username, String password, char phone_number,
+	public User(Integer id, String first_name, String last_name, String username, String password,
 			Roles role, List<Order> orders) {
 		super();
 		this.id = id;
@@ -56,7 +58,6 @@ public class User {
 		this.last_name = last_name;
 		this.username = username;
 		this.password = password;
-		this.phone_number = phone_number;
 		this.role = role;
 		this.orders = orders;
 	}
@@ -102,14 +103,6 @@ public class User {
 		this.password = password;
 	}
 
-	public char getPhone_number() {
-		return phone_number;
-	}
-
-	public void setPhone_number(char phone_number) {
-		this.phone_number = phone_number;
-	}
-
 	public List<Order> getOrders() {
 		return orders;
 	}
@@ -126,10 +119,18 @@ public class User {
 		this.role = role;
 	}
 
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
+
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", first_name=" + first_name + ", last_name=" + last_name + ", username=" + username
-				+ ", password=" + password + ", phone_number=" + phone_number + ", role=" + role + ", orders=" + orders
+				+ ", password=" + password +  ", role=" + role + ", orders=" + orders
 				+ "]";
 	}
 	
