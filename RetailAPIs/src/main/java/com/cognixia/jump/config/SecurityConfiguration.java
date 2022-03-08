@@ -47,6 +47,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 		http.csrf().disable()
 			.authorizeRequests()
 			.antMatchers( HttpMethod.POST, "/api/users").permitAll()
+			.antMatchers( HttpMethod.POST, "/api/products").permitAll()
+			.antMatchers( HttpMethod.GET, "/api/products").permitAll()
 			.antMatchers( HttpMethod.GET, "/api/users").hasRole("ADMIN")
 			.antMatchers("/api/authenticate").permitAll() // permit anyone to create a token as long as they are valid users
 			.anyRequest().authenticated() // any request to any of out api needs to be authenticated token or users info

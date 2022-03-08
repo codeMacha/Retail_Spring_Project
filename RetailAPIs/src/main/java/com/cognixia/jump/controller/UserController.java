@@ -90,7 +90,7 @@ public class UserController {
 	}
 	
 	@DeleteMapping("/users/{id}")
-	public ResponseEntity<?> deleteProduct(@PathVariable int id) {
+	public ResponseEntity<?> deleteUser(@PathVariable int id) {
 		if(serv.deleteUser(id) ) {
 			return ResponseEntity.status(200).body("product with id: "+ id + " was deleted");
 		}
