@@ -1,5 +1,6 @@
 package com.cognixia.jump.model;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -13,8 +14,10 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
-public class User {
+public class User implements Serializable{
 
 	public static enum Roles {
 		ROLE_USER, ROLE_ADMIN

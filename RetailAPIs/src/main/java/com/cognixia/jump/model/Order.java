@@ -1,5 +1,6 @@
 package com.cognixia.jump.model;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -13,9 +14,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @Table(name = "orders")
-public class Order {
+public class Order implements Serializable{
 
 	
 	@Id
@@ -27,6 +31,7 @@ public class Order {
 	@ManyToOne
 	@JoinColumn( name = "user_id", referencedColumnName= "id")
 	private User user;
+	
 	
 	@OneToMany( mappedBy = "order", cascade = CascadeType.ALL)
 	private List<OrderProduct> order_products;
@@ -73,6 +78,12 @@ public class Order {
 
 	public void setProducts(List<OrderProduct> products) {
 		this.order_products = products;
+	}
+
+	@Override
+	public String toString() {
+		return "Order [id=" + id + ", order_date=" + order_date + ", user=" + user + ", order_products="
+				+ order_products + "]";
 	}
 	
 	

@@ -1,59 +1,79 @@
 package com.cognixia.jump.model;
 
+import java.io.Serializable;
 import java.util.Objects;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
-public class OrderProduct {
+public class OrderProduct implements Serializable{
 	
-	
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	private Integer id;
 	
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.MERGE)
 	@JoinColumn( name = "order_id", referencedColumnName= "id")
 	private Order order;
+	 
 	
 	@ManyToOne
 	@JoinColumn( name = "product_id", referencedColumnName= "id")
 	private Product product;
-	
-	private int quantity;
 	
 	
 	public OrderProduct() {
 		
 	}
 
-	public OrderProduct(Integer id, Order order, Product product, int quantity) {
+	public OrderProduct(Integer id, Order order, Product product) {
 		super();
 		this.id = id;
 		this.order = order;
 		this.product = product;
-		this.quantity = quantity;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public Order getOrder() {
+		return order;
+	}
+
+	public void setOrder(Order order) {
+		this.order = order;
+	}
+
+	public Product getProduct() {
+		return product;
+	}
+
+	public void setProduct(Product product) {
+		this.product = product;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
 	@Override
-	public int hashCode() {
-		return Objects.hash(id, order, product, quantity);
+	public String toString() {
+		return "OrderProduct [id=" + id + ", order=" + order + ", product=" + product + "]";
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		OrderProduct other = (OrderProduct) obj;
-		return Objects.equals(id, other.id) && Objects.equals(order, other.order)
-				&& Objects.equals(product, other.product) && quantity == other.quantity;
-	}
+	
 	
 	
 	

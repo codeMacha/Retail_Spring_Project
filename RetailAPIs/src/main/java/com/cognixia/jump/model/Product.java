@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+
 @Entity
 public class Product {
 	
@@ -89,6 +90,12 @@ public class Product {
 
 	public void setOrder(List<OrderProduct> order) {
 		this.order = order;
+	}
+
+	@Override
+	public String toString() {
+		return "Product [id=" + id + ", name=" + name + ", weight=" + weight + ", description=" + description
+				+ ", price=" + price + ", order=" + order + "]";
 	}
 	
 	

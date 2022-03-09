@@ -16,10 +16,12 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cognixia.jump.exception.ResourceNotFoundException;
 import com.cognixia.jump.model.AuthenticationRequest;
 import com.cognixia.jump.model.AuthenticationResponse;
 import com.cognixia.jump.model.User;
@@ -89,10 +91,21 @@ public class UserController {
 		return ResponseEntity.status(201).body(created);
 	}
 	
+	@PutMapping("/users")
+	public ResponseEntity<?> updateCustomer(@Valid @RequestBody User user) throws ResourceNotFoundException{
+		
+		if( serv.findUserByUsername(user.getUsername()) != null){
+			User updated = serv.updateUser(user);
+			return ResponseEntity.status(200).body(updated);
+		}
+		
+		throw new ResourceNotFoundException("user with id: "+ user.getId()+ " was not found");
+	}
+	
 	@DeleteMapping("/users/{id}")
 	public ResponseEntity<?> deleteUser(@PathVariable int id) {
 		if(serv.deleteUser(id) ) {
-			return ResponseEntity.status(200).body("product with id: "+ id + " was deleted");
+			return ResponseEntity.status(200).body("user with id: "+ id + " was deleted");
 		}
 		
 		return ResponseEntity.status(400).body("id not found");
